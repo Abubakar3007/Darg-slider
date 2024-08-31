@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="latest" data-slider="slider1">
+        <div class="slide_btn left_slide" onclick="sliderButton(num=-1,1,this)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="25" viewBox="0 0 12 25" fill="none">
+                <path d="M12 0.5L4.58765 12.5097L12 24.5C10.4628 24.4849 8.92688 24.4773 7.39232 24.4773L0 12.5097L7.36427 0.574655C8.60501 0.574655 9.84574 0.562754 11.0865 0.53895C10.9983 0.53895 11.4551 0.522721 12 0.5Z" fill="#FFD100" />
+            </svg>
+        </div>
+        <div class="slider_card gap-16 flex">
+            <?php if (!empty($latest_ad)) {
+                foreach ($latest_ad as $key => $value) { ?>
+                    <!-- if any object or car new then put here new class -->
+                    <div class="single_object <?php echo ($value['time'] <= 5) ? 'new' : ''; ?>">
+                        <div class="left_object">
+                            <div class="obj_img">
+                                <a href="/object_view/<?php echo $key; ?>/">
+                                    <?php if (!empty($value['main_img'])) { ?>
+                                        <img src="<?php echo getImageName($value['user_id'], $value['main_img'], 'medium'); ?>" alt="object image">
+                                    <?php } else {
+                                    ?>
+                                        <img src="<?php echo DEFAULT_PROPERTY_IMG; ?>" alt="object image">
+                                    <?php } ?>
+                                    <div class="img_no">
+                                        <img src="/assets/img/more_img.svg" alt="">
+                                        <span><?php echo  !empty($value['images']) ? count($value['images']) . ' Photos' : 'No Image'; ?></span>
+                                    </div>
+                                </a>
+                                <div class="favorite favoriteBtn" data-id="<?php echo $key; ?>">
+                                    <img src="/assets/img/heart-line.svg" alt="favorite icon">
+                                    <span><?php echo empty($favorite[$key]) ? 'Add to favorite' : 'Remove favorite'; ?></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="right_object">
+                            <h3>
+                                <a href="/object_view/<?php echo $key; ?>/"><?php echo mb_substr(showData($value, 'title'), 0, 40); ?></a>
+                            </h3>
+                            <?php if (!empty($value['aminity'])) { ?>
+                                <ul class="amenities d_flex gap-16">
+                                    <?php foreach ($value['aminity'] as $index => $name) {
+                                        if ($index < 1) { ?>
+                                            <li><?php echo $name; ?></li>
+                                        <?php } elseif ($index == 1) { ?>
+                                            <li><?php echo count($value['aminity']) - 1; ?> more</li>
+                                    <?php
+                                        }
+                                    } ?>
+                                </ul>
+                            <?php } ?>
+                            <ul class="highlights">
+                                <li>
+                                    <img src="/assets/img/fuel_img.svg" alt="fuel image">
+                                    <div>
+                                        <span>Fuel type</span>
+                                        <strong><?php echo showData($value, 'fuel'); ?></strong>
+                                    </div>
+                                </li>
+                                <li>
+                                    <img src="/assets/img/timer.svg" alt="fuel image">
+                                    <div>
+                                        <span>Mileage</span>
+                                        <strong><?php echo showData($value, 'fuel_consumption'); ?> KMPL</strong>
+                                    </div>
+                                </li>
+                                <li>
+                                    <img src="/assets/img/tranmission.svg" alt="fuel image">
+                                    <div>
+                                        <span>Transmission</span>
+                                        <strong><?php echo showData($value, 'transmission'); ?></strong>
+                                    </div>
+                                </li>
+                            </ul>
+                            <h4><?php echo CURRENCY . number_format(showData($value, 'price')); ?></h4>
+                        </div>
+                    </div>
+            <?php }
+            } ?>
+        </div>
+        <div class="slide_btn right_slide" onclick="sliderButton(num=1,1,this)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="25" viewBox="0 0 12 25" fill="none">
+                <path d="M0 0.5L7.41235 12.5097L0 24.5C1.53723 24.4849 3.07312 24.4773 4.60768 24.4773L12 12.5097L4.63573 0.574655C3.39499 0.574655 2.15426 0.562754 0.913522 0.53895C1.00167 0.53895 0.544908 0.522721 0 0.5Z" fill="#FFD100" />
+            </svg>
+        </div>
+        <ul class="slider_dot d_flex d_center" data-dot="slider_dot1"></ul>
+    </div>
+</body>
+</html>
